@@ -1,0 +1,29 @@
+#-quicklisp
+(let ((quicklisp-init (merge-pathnames "quicklisp/setup.lisp" (user-homedir-pathname))))
+  (when (probe-file quicklisp-init)
+    (load quicklisp-init)))
+
+(defparameter *local-default-load-path*
+  (merge-pathnames "common-lisp/" (user-homedir-pathname)))
+
+(defparameter *sbcl-source-directory*
+  (concatenate 'string "sbcl/sbcl-" (lisp-implementation-version)))
+
+;; set source dir for SBCL
+#+sbcl
+(sb-ext:set-sbcl-source-location
+ (merge-pathnames *sbcl-source-directory* *local-default-load-path*))
+
+;; Local Functions & Macros
+(asdf:load-system :utility)
+
+(require :asdf)
+(require :swank)
+
+;; start a server
+(swank-loader:init)
+(swank:create-server :port #+sbcl(parse-integer (sb-posix:getenv "SWANK_PORT"))
+                     :style swank:*communication-style*
+                     :dont-close t)
+
+(in-package :cl-user)

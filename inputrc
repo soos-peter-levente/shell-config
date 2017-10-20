@@ -1,0 +1,6 @@
+Control-f menu-complete
+Control-d: menu-complete-backward
+# set completion-display-width 1
+set completion-ignore-case on
+TAB: menu-complete
+# Shift-TAB: menu-complete-backward

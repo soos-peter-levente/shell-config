@@ -1,0 +1,26 @@
+XTerm*background:       black
+XTerm*foreground:       white
+XTerm*cursorColor:      white
+XTerm*transparent:	true
+XTerm.vt100.geometry:   78x25
+XTerm*scrollBar:        true
+XTerm*scrollTtyOutput:  false
+XTerm*cursorBlink:	false
+Xterm*boldMode:         false
+Xterm*cjkWidth:         true
+Xterm*colorBDMode:      false 
+Xterm*loginShell:       true
+XTerm*metaSendsEscape:	true
+Xterm*font: 		Terminus-9
+Xterm*boldFont: 	Terminus-9
+
+Emacs.font:		Terminus-9
+Emacs*useXIM:		false
+
+Xft.autohint: 0
+Xft.lcdfilter:  lcddefault
+Xft.hintstyle:  hintfull
+Xft.hinting: 1
+Xft.antialias: 1
+Xft.dpi: 96
+Xft.rgba: rgb

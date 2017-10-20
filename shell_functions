@@ -1,0 +1,38 @@
+#!/usr/bin/bash
+
+### Detect file encoding and output UTF
+makeutf() {
+    if [[ ! -n "$@" ]]; then
+	echo "No arguments. Usage: makeutf [filename]"
+    else
+	input="$@"
+	iconv -f $(uchardet "$input") -t UTF-8//IGNORE "$input"
+    fi
+}
+
+### aliased to 'r'
+open_document_for_reading(){
+    case "$1" in
+        *.odt | *.doc | *.ods | *.xls )
+	    loffice "$1" &
+	    ;;
+        *.pdf | *.ps )
+	    mupdf "$1" &
+	    ;;
+        *.djvu )
+	    djview4 "$1" &
+	    ;;
+        *.fb2 | *.epub | *.mobi )
+	    fbreader "$1" &
+	    ;;
+        *.txt )
+	    less "$1"
+	    ;;
+        *.cbz | *.cbr )
+	    comix "$1"
+	    ;;
+        *.rar | *.zip )
+            comix "$1"
+	    ;;
+    esac
+}

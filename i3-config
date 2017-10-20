@@ -1,0 +1,169 @@
+#Mod4 = Windows key
+set $mod Mod4
+set $term xterm
+
+# Start file manager with remote filesystem capabilities
+bindsym $mod+Shift+p exec --no-startup-id dbus-launch pcmanfm
+
+# Unicode support in Window Tites
+font pango:Terminus 9
+
+# Use Mouse+$mod to drag floating windows to their wanted position
+floating_modifier $mod
+
+for_window [title="^feh *"] floating enable
+for_window [title="^emacs2"] border none
+# start a terminal
+bindsym $mod+n exec --no-startup-id $term
+
+# start emacs
+bindsym $mod+Ctrl+t exec --no-startup-id $term -sb -e "env TERM=xterm-256color emacsclient -t"
+bindsym $mod+Ctrl+o exec --no-startup-id emacsclient -c
+
+#start a browser
+bindsym $mod+Shift+b exec firefox
+
+#take a screenshot of current window
+bindsym Ctrl+$mod+s exec scrot -u
+
+#take a full screenshot
+bindsym Ctrl+$mod+Shift+s exec scrot
+
+# kill focused window
+bindsym $mod+Shift+Q kill
+
+# start dmenu
+bindsym $mod+d exec --no-startup-id dmenu_run -fn "Terminus-9"
+
+bindsym $mod+t border toggle
+
+# change focus
+bindsym $mod+j focus left
+bindsym $mod+k focus down
+bindsym $mod+i focus up
+bindsym $mod+l focus right
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Left  focus left
+bindsym $mod+Down  focus down
+bindsym $mod+Up    focus up
+bindsym $mod+Right focus right
+
+# move focused window
+bindsym $mod+Shift+j move left  50 px
+bindsym $mod+Shift+k move down  50 px
+bindsym $mod+Shift+i move up    50 px
+bindsym $mod+Shift+l move right 50 px
+
+# alternatively, you can use the cursor keys:
+bindsym $mod+Shift+Left  move left  50 px
+bindsym $mod+Shift+Down  move down  50 px
+bindsym $mod+Shift+Up    move up    50 px
+bindsym $mod+Shift+Right move right 50 px
+
+# split in horizontal orientation
+bindsym $mod+h split h
+
+# split in vertical orientation
+bindsym $mod+v split v
+
+# enter fullscreen mode for the focused container
+bindsym $mod+f fullscreen
+
+# change container layout (stacked, tabbed, default)
+bindsym $mod+s layout stacking
+bindsym $mod+w layout tabbed
+bindsym $mod+e layout default
+
+# toggle tiling / floating
+bindsym $mod+Shift+space floating toggle
+
+# change focus between tiling / floating windows
+bindsym $mod+space focus mode_toggle
+
+# focus the parent container
+bindsym $mod+a focus parent
+
+# focus the child container
+#bindcode $mod+d focus child
+
+# switch to workspace
+bindsym $mod+1 workspace 1
+bindsym $mod+2 workspace 2
+bindsym $mod+3 workspace 3
+bindsym $mod+4 workspace 4
+bindsym $mod+5 workspace 5
+bindsym $mod+6 workspace 6
+bindsym $mod+7 workspace 7
+bindsym $mod+8 workspace 8
+bindsym $mod+9 workspace 9
+bindsym $mod+odiaeresis workspace 10
+
+# workspace 1 output VGA1
+# workspace 2 output LVDS1
+
+# move focused container to workspace
+bindsym $mod+Shift+apostrophe move workspace 1
+bindsym $mod+Shift+quotedbl   move workspace 2
+bindsym $mod+Shift+plus       move workspace 3
+bindsym $mod+Shift+exclam     move workspace 4
+bindsym $mod+Shift+percent    move workspace 5
+bindsym $mod+Shift+slash      move workspace 6
+bindsym $mod+Shift+equal      move workspace 7
+bindsym $mod+Shift+parenleft  move workspace 8
+bindsym $mod+Shift+parenright move workspace 9
+bindsym $mod+Shift+Odiaeresis move workspace 10
+
+# reload the configuration file
+bindsym $mod+Shift+C reload
+# restart i3 inplace (preserves your layout/session, can be used to upgrade i3)
+bindsym $mod+Shift+R restart
+# exit i3 (logs you out of your X session)
+bindsym $mod+Shift+E exit
+
+# resize window (you can also use the mouse for that)
+bindsym $mod+r mode "resize"
+
+mode "resize" {
+
+  bindsym j resize grow   left  1 px or 1 ppt
+  bindsym k resize shrink down  1 px or 1 ppt
+  bindsym i resize shrink up    1 px or 1 ppt
+  bindsym l resize grow   right 1 px or 1 ppt
+
+  bindsym Shift+J resize shrink left  1 px or 1 ppt
+  bindsym Shift+K resize grow   down  1 px or 1 ppt
+  bindsym Shift+I resize grow   up    1 px or 1 ppt
+  bindsym Shift+L resize shrink right 1 px or 1 ppt
+
+  # back to normal: Enter or Escape
+  bindsym Return mode "default"
+  bindsym Escape mode "default"
+
+}
+
+## Scratchpad control
+bindsym $mod+Shift+S move container to scratchpad
+bindsym $mod+0 scratchpad show
+
+## SOUND CONTROL
+bindsym XF86AudioRaiseVolume exec --no-startup-id pactl set-sink-volume 0 +5%
+bindsym XF86AudioLowerVolume exec --no-startup-id pactl set-sink-volume 0 -5%
+bindsym XF86AudioMute        exec --no-startup-id pactl set-sink-volume 0 0%
+
+## GENERAL SETTINGS
+new_window normal
+new_float 1pixel
+default_orientation horizontal
+workspace_auto_back_and_forth yes
+
+# i3bar + i3status
+bar {
+    # mode hide
+    status_command i3status
+}
+
+# startup apps
+exec --no-startup-id nm-applet
+exec --no-startup-id setxkbmap -option "ctrl:nocaps"
+exec --no-startup-id xset r rate 150 80
