@@ -36,3 +36,11 @@ open_document_for_reading(){
 	    ;;
     esac
 }
+
+### set a consistently readable column width for man
+man80 () {
+    if [[ $COLUMNS -gt 80 ]]; then
+        export MANWIDTH=78
+    fi
+    man "$@"
+}
