@@ -40,7 +40,8 @@ open_document_for_reading(){
 ### set a consistently readable column width for man
 man80 () {
     if [[ $COLUMNS -gt 80 ]]; then
-        export MANWIDTH=78
+        MANWIDTH=78 man "$@"
+    else
+        man "$@"
     fi
-    man "$@"
 }
