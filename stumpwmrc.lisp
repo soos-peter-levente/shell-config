@@ -1,5 +1,9 @@
 ;; -*- mode: lisp; author: spl; license: MIT -*- ;;
 
+;;;; Utilities
+(asdf:load-asd "~/common-lisp/utility/utility.asd")
+(asdf:load-system :utility)
+
 ;;;; StumpWM Configuration
 (in-package :stumpwm)
 
@@ -9,16 +13,8 @@
 
 ;; Simplify the way keybindings are defined for a given map.
 (defmacro define-keys (map binding-alist)
-  `(progn ,@(loop for (key . command) in (group binding-alist)
+  `(progn ,@(loop for (key . command) in (utility:group binding-alist)
                   collect `(define-key ,map (kbd ,key) ,@command))))
-
-(defun group (list &optional (n 2))
-  (labels ((rec (list acc)
-             (let ((rest (nthcdr n list)))
-               (if rest
-                   (rec rest (cons (subseq list 0 n) acc))
-                   (nreverse (cons list acc))))))
-    (rec list nil)))
 
 ;; top-level
 (define-keys *top-map*
