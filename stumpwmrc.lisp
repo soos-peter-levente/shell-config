@@ -34,6 +34,7 @@
    ("s-j" "move-focus left")
    ("s-i" "move-focus up")
    ("s-k" "move-focus down")
+   ("s-L" "windowlist")
 
    ;; move windows in group
    ("M-s-l" "move-window right")
@@ -151,9 +152,12 @@
 
 ;; colors & borders
 (setf *window-border-style* :tight)
-(set-border-color "#3a3a3a")
-(set-focus-color "#a9a9a9")
-(set-unfocus-color "#3a3a3a")
+(defparameter gray "#3a3a3a")
+(defparameter light-gray "#a9a9a9")
+
+(set-border-color  gray)
+(set-unfocus-color gray)
+(set-focus-color   light-gray)
 
 ;;;;;;;;;;;;
 ;; SERVER ;;
