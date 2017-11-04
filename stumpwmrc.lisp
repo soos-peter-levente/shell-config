@@ -7,88 +7,83 @@
 ;; KEYBINDINGS ;;
 ;;;;;;;;;;;;;;;;;
 
-;; Write keybindings in a simpler fashion
+;; Simplify the way keybindings are defined for a given map.
 (defmacro define-keys (map binding-alist)
-  `(progn ,@(loop for (key . command) in binding-alist
-                  collect `(define-key ,map (kbd ,key) ,@command))))
+  (labels ((group (list n acc)
+             (if (null list)
+                 (nreverse acc)
+                 (let* ((short-end (nth n list))
+                        (n (if short-end
+                               n
+                               (length list))))
+                   (group (subseq list n)
+                          n
+                          (cons (subseq list 0 n) acc))))))
+    `(progn ,@(loop for (key . command) in (group binding-alist 2 nil)
+                    collect `(define-key ,map (kbd ,key) ,@command)))))
 
 ;; top-level
 (define-keys *top-map*
-  (;; keymap prefixes
-   ("s-d" '*describe-map*)
-   
-     ;; commands and reload 
-   ("s-." "colon")
-   ("s--" "loadrc")
-
-   ;; access predefined groups
-   ("s-1" "gselect 1")
-   ("s-2" "gselect 2")
-   ("s-3" "gselect 3")
-   ("s-4" "gselect 4")
-   ("s-5" "gselect 5")
-   ("s-g" "grouplist")
-
-   ;; move between windows
-   ("s-l" "move-focus right")
-   ("s-j" "move-focus left")
-   ("s-i" "move-focus up")
-   ("s-k" "move-focus down")
-   ("s-L" "windowlist")
-
-   ;; move windows in group
-   ("M-s-l" "move-window right")
-   ("M-s-j" "move-window left")
-   ("M-s-i" "move-window up")
-   ("M-s-k" "move-window down")
-
-   ;; move windows between groups
-   ("s-'" "gmove 1")
-   ("s-\"" "gmove 2")
-   ("s-+" "gmove 3")
-   ("s-!" "gmove 4")
-   ("s-%" "gmove 5")
-   
-   ;; resize windows
-   ("s-s" "iresize")
-
-   ;; fullscreen & lock
-   ("s-f" "fullscreen")
-   ("s-c" "exec xscreensaver-command -lock")
-
-   ;; splitting windows
-   ("s-h" "hsplit")
-   ("s-v" "vsplit")
-
-   ;; cycle through windows
-   ("s-TAB" "fnext")
-   ("M-TAB" "pull-hidden-next")
-
-   ;; kill windows & frames
-   ("s-q" "kill")
-   ("s-r" "remove")
-
-   ;; run a program
-   ("s-a" "exec")
-   
-   ;; a few specific program bindings
-   ("s-n" "exec st -e tmux")
-   ("s-p" "exec pcmanfm")
-
-   ;; the emacs daemon should be running by the time X/stumpwm
-   ;; starts - we attach with a client with the keys below.
-   ("s-o" "exec emacsclient -c") ;; run with GUI or in xterm
-   ("s-t" "exec st -e env TERM=xterm-256color emacsclient -t")
-
-   ;; Volume control
-   ("XF86AudioRaiseVolume" "exec pactl set-sink-volume 0 +5%")
-   ("XF86AudioLowerVolume" "exec pactl set-sink-volume 0 -5%")
-   ("XF86AudioMute" "exec pactl set-sink-volume 0 0%")
-   
-   ;; misc
-   ("s-:" "eval")
-   ("s-e" "gselect lisp")
-   ))
+(;; keymap prefixes
+ "s-d" '*describe-map*
+ ;; commands and reload
+ "s-." "colon"
+ "s--" "loadrc"
+ ;; access predefined groups
+ "s-1" "gselect 1"
+ "s-2" "gselect 2"
+ "s-3" "gselect 3"
+ "s-4" "gselect 4"
+ "s-5" "gselect 5"
+ "s-g" "grouplist"
+ ;; move between windows
+ "s-l" "move-focus right"
+ "s-j" "move-focus left"
+ "s-i" "move-focus up"
+ "s-k" "move-focus down"
+ "s-L" "windowlist"
+ ;; move windows in group
+ "M-s-l" "move-window right"
+ "M-s-j" "move-window left"
+ "M-s-i" "move-window up"
+ "M-s-k" "move-window down"
+ ;; move windows between groups
+ "s-'" "gmove 1"
+ "s-\"" "gmove 2"
+ "s-+" "gmove 3"
+ "s-!" "gmove 4"
+ "s-%" "gmove 5"
+ ;; resize windows
+ "s-s" "iresize"
+ ;; splitting windows
+ "s-h" "hsplit"
+ "s-v" "vsplit"
+ ;; cycle through windows
+ "s-TAB" "fnext"
+ "M-TAB" "pull-hidden-next"
+ ;; kill windows & frames
+ "s-q" "kill"
+ "s-r" "remove"
+ ;; run a program
+ "s-a" "exec"
+ ;; a few specific program bindings
+ "s-n" "exec st -e tmux"
+ "s-p" "exec pcmanfm"
+ ;; the emacs daemon should be running by the time X/stumpwm
+ ;; starts - we attach with a client with the keys below.
+ "s-o" "exec emacsclient -c" ;; run with GUI or in xterm
+ "s-t" "exec st -e env TERM=xterm-256color emacsclient -t"
+ ;; Volume control
+ "XF86AudioRaiseVolume" "exec pactl set-sink-volume 0 +5%"
+ "XF86AudioLowerVolume" "exec pactl set-sink-volume 0 -5%"
+ "XF86AudioMute" "exec pactl set-sink-volume 0 0%"
+ ;; fullscreen & lock
+ "s-f" "fullscreen"
+ "s-c" "exec xscreensaver-command -lock"
+ ;; misc
+ "s-:" "eval"
+ "s-e" "gselect lisp"
+ ))
 
 ;; iresize - modify the iresize.lisp defaults a bit here
 (define-interactive-keymap
@@ -108,11 +103,12 @@
   "Use 'describe' commands with a prefix key map.")
 
 (define-keys *describe-map*
-    (("f"  "describe-function")
-     ("v"  "describe-variable")
-     ("k"  "describe-key")
-     ("c"  "describe-command")
-     ))
+(
+ "f"  "describe-function"
+ "v"  "describe-variable"
+ "k"  "describe-key"
+ "c"  "describe-command"
+ ))
 
 ;;;;;;;;;;;;;
 ;; STARTUP ;;
