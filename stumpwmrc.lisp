@@ -55,18 +55,21 @@
  ;; cycle through windows
  "s-TAB" "fnext"
  "M-TAB" "pull-hidden-next"
- ;; kill windows & frames
- "s-q" "kill"
+ ;; delete/kill windows & frames
+ "M-s-q" "kill"
+ "s-q" "delete-window"
  "s-r" "remove"
  ;; run a program
  "s-a" "exec"
  ;; a few specific program bindings
  "s-n" "exec st -e tmux"
  "s-p" "exec pcmanfm"
+ "s-m" "exec min"
  ;; the emacs daemon should be running by the time X/stumpwm
  ;; starts - we attach with a client with the keys below.
  "s-o" "exec emacsclient -c" ;; run with GUI or in xterm
- "s-t" "exec st -e env TERM=xterm-256color emacsclient -t"
+ ;; "s-t" "exec st -e env TERM=xterm-256color emacsclient -t"
+ "s-t" "eval (toggle-mode-line (current-screen) (current-head))"
  ;; Volume control
  "XF86AudioRaiseVolume" "exec pactl set-sink-volume 0 +5%"
  "XF86AudioLowerVolume" "exec pactl set-sink-volume 0 -5%"
@@ -130,9 +133,14 @@
       *screen-mode-line-format* (list "[^B%n^b] %W | %d"))
 
 ;; turn on mode-line
-(when (not (head-mode-line (current-head)))
-  (toggle-mode-line (current-screen) (current-head)))
+(defun mode-line-on ()
+  (when (not (head-mode-line (current-head)))
+    (toggle-mode-line (current-screen) (current-head))))
 
+;; (mode-line-on)
+
+
+(setf *mouse-focus-policy* :sloppy)
 ;;;;;;;;;;;;;;;;
 ;; APPEARANCE ;;
 ;;;;;;;;;;;;;;;;
@@ -141,13 +149,15 @@
 (set-font "-*-terminus-medium-*-normal-*-12-120-72-72-c-60-iso8859-*")
 
 ;; colors & borders
-(setf *window-border-style* :tight)
+(setf *window-border-style*  :thick
+      *normal-border-width*  0
+      *maxsize-border-width* 0)
 (defparameter gray "#3a3a3a")
 (defparameter light-gray "#a9a9a9")
 
 (set-border-color  gray)
 (set-unfocus-color gray)
-(set-focus-color   light-gray)
+(set-focus-color   gray)
 
 ;;;;;;;;;;;;
 ;; SERVER ;;
