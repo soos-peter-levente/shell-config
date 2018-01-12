@@ -8,7 +8,8 @@ DOCUMENT="00;32:"    # green
 EXECUTABLE="00;33:"  # yellow
 MEDIAFILE="00;35:"   # purple
 SOURCECODE="00;36:"  # blue
-ARCHIVES="1;30:"   # gray
+ARCHIVES="1;37:"     # white
+#ARCHIVES="1;30:"     # gray
 
 # add extensions
 export LS_COLORS="\

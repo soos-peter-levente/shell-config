@@ -62,7 +62,7 @@
  ;; run a program
  "s-a" "exec"
  ;; a few specific program bindings
- "s-n" "exec st -e tmux"
+ "s-n" "exec urxvt -b 0 -e tmux"
  "s-p" "exec pcmanfm"
  "s-m" "exec min"
  ;; the emacs daemon should be running by the time X/stumpwm

@@ -102,8 +102,10 @@ export QT_IM_MODULE=ibus
 export ECORE_IMF_MODULE=ibus
 
 # prompt
-export PS1="[\e[1;30m\]\T\e[0;37m\]] \[\e[1;30m\][\[\e[1;34m\]\u@\H\[\e[1;30m\]:]\[\e[0;37m\]\[\e[0m\]\w\n\$ "
+export PS1="\[\e[0;36m\]\w$\[\e[0m\] "
 
 # source a few files
 . "$SHELL_CONFIG_DIRECTORY"/shell_functions
 . ~/.lscolor
+
+
