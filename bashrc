@@ -100,7 +100,7 @@ export GTK_IM_MODULE=ibus
 export XMODIFIERS=@im=ibus
 export QT_IM_MODULE=ibus
 export ECORE_IMF_MODULE=ibus
-
+export TERM=xterm-256color
 # prompt
 export PS1="\[\e[0;36m\]\w$\[\e[0m\] "
 

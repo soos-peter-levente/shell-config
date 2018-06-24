@@ -1,9 +1,5 @@
 ;; -*- mode: lisp; author: spl; license: MIT -*- ;;
 
-;;;; Utilities
-(asdf:load-asd "~/common-lisp/utility/utility.asd")
-(asdf:load-system :utility)
-
 ;;;; StumpWM Configuration
 (in-package :stumpwm)
 
@@ -12,8 +8,16 @@
 ;;;;;;;;;;;;;;;;;
 
 ;; Simplify the way keybindings are defined for a given map.
+(defun group (list &optional (n 2))
+  (labels ((rec (list acc)
+             (let ((rest (nthcdr n list)))
+               (if rest
+                   (rec rest (cons (subseq list 0 n) acc))
+                   (nreverse (cons list acc))))))
+    (rec list nil)))
+
 (defmacro define-keys (map binding-alist)
-  `(progn ,@(loop for (key . command) in (utility:group binding-alist)
+  `(progn ,@(loop for (key . command) in (group binding-alist)
                   collect `(define-key ,map (kbd ,key) ,@command))))
 
 ;; top-level
@@ -62,7 +66,7 @@
  ;; run a program
  "s-a" "exec"
  ;; a few specific program bindings
- "s-n" "exec urxvt -b 0 -e tmux"
+ "s-n" "exec urxvt"
  "s-p" "exec pcmanfm"
  "s-m" "exec min"
  ;; the emacs daemon should be running by the time X/stumpwm
@@ -138,7 +142,6 @@
     (toggle-mode-line (current-screen) (current-head))))
 
 ;; (mode-line-on)
-
 
 (setf *mouse-focus-policy* :sloppy)
 ;;;;;;;;;;;;;;;;

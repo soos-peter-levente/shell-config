@@ -1,0 +1,19 @@
+-- Highlight Theme made from Terminal Mysterioso
+
+Description = "Terminal Mysterioso"
+
+Base          = { Colour="#87cefa" }
+Default	      = { Colour="#e1e1e1" }
+Canvas	      = { Colour="#000000" }
+Escape	      = { Colour="#808080" }
+String	      = { Colour="#7cfc00" }
+BlockComment  = { Colour="#696969" }
+Interpolation =  { Colour="#CFA5DB" }
+
+LineComment   = BlockComment
+LineNum       = BlockComment
+Number        = String
+StringPreProc = String
+Operator      = Default
+PreProcessor  = Default
+Keywords      = { Base, Base, Base, Base }

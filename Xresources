@@ -24,6 +24,7 @@ URxvt*cursorColor:       Red1
 URxvt*HiBackColor:       Grey23
 URxvt*HiForeColor:       Grey23
 URxvt*borderWidth:       0
+URxvt*scrollBar:         false
 URxvt*scrollStyle:       plain
 URxvt*thickness:         5
 Emacs.font:		 Terminus-9
