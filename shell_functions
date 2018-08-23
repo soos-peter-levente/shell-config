@@ -29,7 +29,7 @@ open_document_for_reading(){
 	    less "$1"
 	    ;;
         *.cbz | *.cbr )
-	    comix "$1"
+	    mcomix "$1"
 	    ;;
         *.rar | *.zip )
             comix "$1"
